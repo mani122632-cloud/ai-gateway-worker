@@ -45,8 +45,8 @@ export function validateMethod(request) {
 // env.APP_SHARED_TOKEN must be set via `wrangler secret put APP_SHARED_TOKEN`
 // (placeholder only in this repo — see wrangler.toml comments).
 export function validateAuth(request, env) {
-  const token = request.headers.get('X-App-Token') || '';
-  const expected = (env && env.APP_SHARED_TOKEN) || '';
+  const token = (request.headers.get('X-App-Token') || '').trim();
+  const expected = ((env && env.APP_SHARED_TOKEN) || '').trim();
   if (!expected || !timingSafeEqual(token, expected)) {
     return { valid: false, errorCode: ErrorCodes.UNAUTHORIZED, status: 401 };
   }
