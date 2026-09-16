@@ -1,0 +1,24 @@
+name = "ai-gateway-worker"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# Non-secret configuration only. Safe to commit.
+[vars]
+GEMINI_MODEL = "gemini-2.5-flash"
+
+# ---------------------------------------------------------------------
+# SECRETS — do NOT put real values here. This file is committed to git.
+#
+# The following two secrets must be set via the Wrangler CLI, which
+# stores them encrypted on Cloudflare's side, never in this repo:
+#
+#   npx wrangler secret put GEMINI_API_KEY
+#   npx wrangler secret put APP_SHARED_TOKEN
+#
+# GEMINI_API_KEY   — the real Gemini API key from Google AI Studio.
+# APP_SHARED_TOKEN — the shared token the CRM app sends in the
+#                    X-App-Token header to authenticate with this Worker.
+#
+# Neither value should ever appear in this file, in src/, in git
+# history, or inside the CRM app's APK.
+# ---------------------------------------------------------------------
