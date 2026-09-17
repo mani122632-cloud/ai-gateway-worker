@@ -58,8 +58,9 @@ export async function callGemini(env, prompt) {
   clearTimeout(timeoutId);
 
   if (!response.ok) {
+    console.log('GEMINI_STATUS:', response.status);
     return { ok: false, errorCode: mapUpstreamStatus(response.status) };
-  }
+}
 
   let data;
   try {
