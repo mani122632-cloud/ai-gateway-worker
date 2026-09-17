@@ -4,7 +4,7 @@ compatibility_date = "2026-09-01"
 
 # Non-secret configuration only. Safe to commit.
 [vars]
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = "gemini-flash-latest"
 
 # ---------------------------------------------------------------------
 # SECRETS — do NOT put real values here. This file is committed to git.
