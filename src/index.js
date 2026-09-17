@@ -14,11 +14,21 @@ import { ErrorCodes } from './errors.js';
 
 export default {
   async fetch(request, env, ctx) {
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, X-App-Token',
+    };
+
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { status: 204, headers: corsHeaders });
+    }
+
     const url = new URL(request.url);
 
     // Only one route exists on this Worker: POST /ai/invoke.
     if (url.pathname !== '/ai/invoke') {
-      return errorResponse(ErrorCodes.NOT_FOUND, 404);
+      return addCors(errorResponse(ErrorCodes.NOT_FOUND, 404), corsHeaders);
     }
 
     const methodCheck = validateMethod(request);
@@ -41,7 +51,7 @@ export default {
       if (!result.ok) {
         return errorResponse(result.errorCode, upstreamStatusFor(result.errorCode));
       }
-      return okResponse(result.text);
+      return addCors(okResponse(result.text), corsHeaders);
     } catch (err) {
       // Unexpected exception anywhere in the call chain — never leak
       // internals, always return the generic internal error code.
@@ -57,4 +67,16 @@ function upstreamStatusFor(errorCode) {
   if (errorCode === ErrorCodes.EMPTY_RESPONSE) return 502;
   if (errorCode === ErrorCodes.UPSTREAM_ERROR) return 502;
   return 500;
+}
+
+
+function addCors(response, headers) {
+  const newHeaders = new Headers(response.headers);
+  Object.entries(headers).forEach(([key, value]) => {
+    newHeaders.set(key, value);
+  });
+  return new Response(response.body, {
+    status: response.status,
+    headers: newHeaders,
+  });
 }

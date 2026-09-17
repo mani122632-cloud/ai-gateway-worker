@@ -7,7 +7,7 @@
 //
 // No secrets, no API keys in this file.
 
-const JSON_HEADERS = { 'Content-Type': 'application/json' };
+const JSON_HEADERS = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, X-App-Token' };
 
 // Builds a successful JSON response.
 // text: string — the model output to return to the CRM app.
