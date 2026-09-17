@@ -17,6 +17,7 @@ const ALLOWED_OPERATIONS = [
   'leadDealAnalysis',
   'churnDetection',
   'salesTrendAnalysis',
+  'assistantChat',
 ];
 
 const MAX_PROMPT_LENGTH = 8000; // characters — guards against runaway cost/abuse
